@@ -7,6 +7,7 @@ namespace EconomySimulator2
     class Good
     {
         public String name;
+        /**初期価格。実際に取引される価格は場所によって異なり、Market.priceで表される*/
         public double price;
 
         public double elasticity;
