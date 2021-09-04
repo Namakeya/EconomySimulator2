@@ -56,10 +56,16 @@ namespace EconomySimulator2
         {
             double prev = price;
             double pricerate = Math.Pow(demand / basesupply, 1 / (good.elasticity));
-            price = good.price * Math.Pow((marketsupply+amount) / basesupply, 1 / (supply.StockExp(pricerate)));
+            double ex = supply.StockExp(pricerate);
+
+            price = good.price * Math.Pow((marketsupply+amount) / basesupply, 1 / ex);
+
+            double sumprice = good.price / Math.Pow(basesupply,1/ex) * ex / (1 + ex) * (Math.Pow(marketsupply + amount - 0.5, (1 + ex) / ex) - Math.Pow(marketsupply - 0.5, (1 + ex) / ex));
+
             supply.ChangeStock(-amount);
-            Debug.Print(good.name + " price: " + price + " stock: " + supply.currentstock);
-            return prev;
+
+            Debug.Print(good.name + " sumprice: " + sumprice + " stock: " + supply.currentstock);
+            return sumprice;
         }
 
 
