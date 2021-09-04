@@ -7,13 +7,13 @@ namespace EconomySimulator2
     class Supply
     {
         public Good good;
-        public double supplyBase;
-        public double stockbase;
-        public double currentstock;
+        public int supplyBase;
+        public int stockbase;
+        public int currentstock;
         public double stockgain = 0.01;
         public double maxExp = 5;
 
-        public Supply(Good good, double supplyBase, double stockbase, double currentstock)
+        public Supply(Good good, int supplyBase, int stockbase, int currentstock)
         {
             this.good = good;
             this.supplyBase = supplyBase;
@@ -21,7 +21,7 @@ namespace EconomySimulator2
             this.currentstock = currentstock;
         }
 
-        public virtual double GetBaseSupply(int time)
+        public virtual int GetBaseSupply(int time)
         {
             return supplyBase;
         }
@@ -33,7 +33,7 @@ namespace EconomySimulator2
             return rate > 100 ? 100 : rate;
         }
 
-        public virtual void ChangeStock(double amount)
+        public virtual void ChangeStock(int amount)
         {
             currentstock += amount;
         }

@@ -20,10 +20,10 @@ namespace EconomySimulator2
             g1 = new Good("Grain", 100, 0.5);
             g2 = new Good("Alcohol", 100, 1.5);
             r1 = new Region();
-            r1.addMarket(new Market(g1, 10, new SupplyMonthly(g1, 12, 10, 0,
+            r1.addMarket(new Market(g1, 100, new SupplyMonthly(g1, 120, 100, 0,
                 new double[] { 0.3, 0.3, 0.3, 0.3, 0.3, 2, 2, 2, 2, 2, 0.3, 0.3 })));
             r2 = new Region();
-            r2.addMarket(new Market(g1, 10, new SupplyMonthly(g1, 12, 10, 0,
+            r2.addMarket(new Market(g1, 100, new SupplyMonthly(g1, 120, 100, 0,
                 new double[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 })));
             //r1.addMarket(new Market(g2, 10, new Supply(g1, 12, 100,0)));
 

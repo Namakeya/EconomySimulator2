@@ -13,13 +13,13 @@ namespace EconomySimulator2
         public Supply supply;
 
         /**直前の生産量*/
-        public double basesupply { get; protected set; }
+        public int basesupply { get; protected set; }
 
         /**直前の市場価格*/
         public double price { get; protected set; }
 
         /**直前の市場供給量*/
-        public double marketsupply { get; protected set; }
+        public int marketsupply { get; protected set; }
 
         public Market(Good good, double demand, Supply supply)
         {
@@ -39,10 +39,10 @@ namespace EconomySimulator2
             price = good.price * Math.Pow(demand / basesupply, 1 / (good.elasticity + supply.StockExp(pricerate)));
 
             //市場供給量
-            marketsupply = Math.Pow(price / good.price, supply.StockExp(pricerate)) * basesupply;
+            marketsupply = (int)(Math.Pow(price / good.price, supply.StockExp(pricerate)) * basesupply);
 
             //備蓄増減 正で増え負で減る
-            double stockamount = basesupply - marketsupply;
+            int stockamount = basesupply - marketsupply;
 
             supply.ChangeStock(stockamount);
 
@@ -52,7 +52,7 @@ namespace EconomySimulator2
         }
 
         /**正... 買い 負... 売り*/
-        public double buy(double amount)
+        public double buy(int amount)
         {
             double prev = price;
             double pricerate = Math.Pow(demand / basesupply, 1 / (good.elasticity));
