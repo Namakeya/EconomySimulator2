@@ -16,15 +16,13 @@ namespace EconomySimulator2
 
         public void Start()
         {
+            Facility.facilities.Add(FacilityFarm.NAME, FacilityFarm.Factory);
+            Facility.facilities.Add(FacilityPop.NAME, FacilityPop.Factory);
 
-            g1 = new Good("Grain", 100, 0.5);
-            g2 = new Good("Alcohol", 100, 1.5);
             r1 = new Region();
-            r1.addMarket(new Market(g1, 100, new SupplyMonthly(g1, 120, 100, 0,
-                new double[] { 0.3, 0.3, 0.3, 0.3, 0.3, 2, 2, 2, 2, 2, 0.3, 0.3 })));
+            r1.addFacility("Farm", 7);
+            r1.addFacility("Pop", 2000);
             r2 = new Region();
-            r2.addMarket(new Market(g1, 100, new SupplyMonthly(g1, 120, 100, 0,
-                new double[] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 })));
             //r1.addMarket(new Market(g2, 10, new Supply(g1, 12, 100,0)));
 
             while (true)
@@ -38,7 +36,8 @@ namespace EconomySimulator2
         {
             Debug.Print("tick : " + tick);
             r1.calc(tick);
-            r2.calc(tick);
+            //r2.calc(tick);
+            /*
             if(r1.market["Grain"].price > r2.market["Grain"].price)
             {
                 r2.market["Grain"].buy(5);
@@ -49,6 +48,7 @@ namespace EconomySimulator2
                 r1.market["Grain"].buy(5);
                 r2.market["Grain"].buy(-5);
             }
+            */
             
             
             //r1.calc(g2,tick);
