@@ -12,6 +12,7 @@ namespace EconomySimulator2
         public string name;
         public int amount;
         public Region region;
+        public Agent owner;
 
         public Facility(string name,Region region)
         {
@@ -24,7 +25,7 @@ namespace EconomySimulator2
 
         public abstract int getProduct(Good good);
 
-        public abstract void setSupplyRatio(Good good,double ratio);
+        public abstract void setSupplyRatio(Dictionary<Good,double> ratio);
 
         public abstract int getStock(Good good);
     }

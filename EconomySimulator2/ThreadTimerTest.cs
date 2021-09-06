@@ -9,8 +9,6 @@ namespace EconomySimulator2
     class ThreadTimerTest
     {
         public int tick;
-        public Good g1;
-        public Good g2;
         public Region r1;
         public Region r2;
 
@@ -20,8 +18,13 @@ namespace EconomySimulator2
             Facility.facilities.Add(FacilityPop.NAME, FacilityPop.Factory);
 
             r1 = new Region();
-            r1.addFacility("Farm", 7);
-            r1.addFacility("Pop", 2000);
+            r1.name = "Region 1";
+            Agent local = new Agent();
+            local.name = r1.name + " local";
+            local.location = r1;
+            Agent.addAgent(local);
+            r1.addFacility("Farm", 7,local);
+            r1.addFacility("Pop", 2000,local);
             r2 = new Region();
             //r1.addMarket(new Market(g2, 10, new Supply(g1, 12, 100,0)));
 
@@ -35,6 +38,9 @@ namespace EconomySimulator2
         public void Run()
         {
             Debug.Print("tick : " + tick);
+            foreach(Agent agent in Agent.agents.Values){
+                agent.Action(tick);
+            }
             r1.calc(tick);
             //r2.calc(tick);
             /*

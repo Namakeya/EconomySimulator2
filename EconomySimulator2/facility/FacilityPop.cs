@@ -59,18 +59,12 @@ namespace EconomySimulator2
             }
         }
 
-        public override void setSupplyRatio(Good good, double ratio)
+        public override void setSupplyRatio(Dictionary<Good, double> ratio)
         {
-            if(good == Good.GRAIN)
+            efficiency = 1;
+            if (ratio[Good.GRAIN] < 1)
             {
-                if (ratio < 1)
-                {
-                    efficiency = ratio;
-                }
-                else
-                {
-                    efficiency = 1;
-                }
+                efficiency *= ratio[Good.GRAIN];
             }
         }
     }
