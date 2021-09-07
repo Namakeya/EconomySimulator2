@@ -95,6 +95,7 @@ namespace EconomySimulator2
             {
                 return 0;
             }
+            if (stockbase == 0) return 0;
             double rate = maxExp * Sigmoid(stockgain, (currentstock / stockbase - 1) * (pricerate - 1));
             return rate > 100 ? 100 : rate;
         }

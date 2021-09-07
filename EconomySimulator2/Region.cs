@@ -47,10 +47,18 @@ namespace EconomySimulator2
                     }
                     m.SetMaxStock(stock);
                     m.calc(time, demand, produce);
-                    Debug.Print(g.name + " supplyratio : " + m.marketsupply / demand);
-                    sdratio.Add(g, m.marketsupply / demand);
-                    spratio.Add(g, m.marketsupply / produce);
-                    foreach (Facility facility in facilities.Values)
+                    if (produce != 0)
+                    {
+                        spratio.Add(g, m.marketsupply / produce);
+                    }
+                    if (demand != 0)
+                    {
+                        Debug.Print(g.name + " supplyratio : " + m.marketsupply / demand);
+                        sdratio.Add(g, m.marketsupply / demand);
+                    }
+
+
+                        foreach (Facility facility in facilities.Values)
                     {
                         if (produce != 0)
                         {

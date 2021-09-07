@@ -17,17 +17,37 @@ namespace EconomySimulator2
         {
             Facility.facilities.Add(FacilityFarm.NAME, FacilityFarm.Factory);
             Facility.facilities.Add(FacilityPop.NAME, FacilityPop.Factory);
+            Facility.facilities.Add(FacilityBrewery.NAME, FacilityBrewery.Factory);
             Facility.facilities.Add(FacilityTemporal.NAME, FacilityTemporal.Factory);
 
             r1 = new Region();
             r1.name = "Region 1";
+
+            r2 = new Region();
+            r2.name = "Region 2";
+
             Agent local = new Agent();
-            local.name = r1.name + " local";
+            local.name = r1.name + "_local";
             local.location = r1;
             Agent.addAgent(local);
+            Agent local2 = new Agent();
+            local2.name = r2.name + "_local";
+            local2.location = r2;
+            Agent.addAgent(local2);
+
+            LocalTrader trader = new LocalTrader();
+            trader.name = r1.name + "_localtrader";
+            trader.location = r1;
+            trader.destination = r2;
+            Agent.addAgent(trader);
+
             Facility.addFacility("Farm", 7,local,r1);
             Facility.addFacility("Pop", 2000,local,r1);
-            r2 = new Region();
+
+            Facility.addFacility("Farm", 8, local2, r2);
+            Facility.addFacility("Pop", 1000, local2, r2);
+            Facility.addFacility("Brewery", 4, local2, r2);
+
             //r1.addMarket(new Market(g2, 10, new Supply(g1, 12, 100,0)));
 
             while (true)
@@ -44,7 +64,7 @@ namespace EconomySimulator2
                 agent.Action(tick);
             }
             r1.calc(tick);
-            //r2.calc(tick);
+            r2.calc(tick);
             /*
             if(r1.market["Grain"].price > r2.market["Grain"].price)
             {

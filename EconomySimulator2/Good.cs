@@ -22,6 +22,11 @@ namespace EconomySimulator2
             values.Add(name, this);
         }
 
+        public override string ToString()
+        {
+            return name;
+        }
+
         public static Good WORKER = new Good("Worker", 5,1);
 
         public static Good GRAIN= new Good("Grain", 100, 0.5);
