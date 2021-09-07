@@ -12,16 +12,48 @@ namespace EconomySimulator2
         public double money;
         public Region location;
         public Dictionary<string, Facility> facilities = new Dictionary<string, Facility>();
-        public Dictionary<Good, int> goods = new Dictionary<Good, int>();
+        private Dictionary<Good, int> goods = new Dictionary<Good, int>();
 
-        public void Action(int tick)
+        public virtual void Action(int tick)
         {
-            Debug.Print("current money : " + money);
+            Debug.Print(name+" money : " + money);
         }
 
         public static void addAgent(Agent agent)
         {
             agents.Add(agent.name, agent);
+        }
+
+        public void addGoods(Good good,int amount)
+        {
+            if (amount == 0) return;
+            if (goods.ContainsKey(good))
+            {
+                if (goods[good] + amount > 0)
+                {
+                    goods[good] = goods[good] + amount;
+                }
+                else
+                {
+                    goods.Remove(good);
+                }
+            }
+            else
+            {
+                goods.Add(good, amount);
+            }
+        }
+
+        public int getGoods(Good good)
+        {
+            if (goods.ContainsKey(good))
+            {
+                return goods[good];
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }

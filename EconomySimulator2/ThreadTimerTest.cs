@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EconomySimulator2.facility;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -16,6 +17,7 @@ namespace EconomySimulator2
         {
             Facility.facilities.Add(FacilityFarm.NAME, FacilityFarm.Factory);
             Facility.facilities.Add(FacilityPop.NAME, FacilityPop.Factory);
+            Facility.facilities.Add(FacilityTemporal.NAME, FacilityTemporal.Factory);
 
             r1 = new Region();
             r1.name = "Region 1";
@@ -23,8 +25,8 @@ namespace EconomySimulator2
             local.name = r1.name + " local";
             local.location = r1;
             Agent.addAgent(local);
-            r1.addFacility("Farm", 7,local);
-            r1.addFacility("Pop", 2000,local);
+            Facility.addFacility("Farm", 7,local,r1);
+            Facility.addFacility("Pop", 2000,local,r1);
             r2 = new Region();
             //r1.addMarket(new Market(g2, 10, new Supply(g1, 12, 100,0)));
 

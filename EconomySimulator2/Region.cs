@@ -13,28 +13,15 @@ namespace EconomySimulator2
         public Dictionary<string, Facility> facilities = new Dictionary<string, Facility>();
 
 
-        public void addFacility(string name,int amount,Agent owner)
-        {
-            string facname = name + "_" + owner.name;
-            if (facilities.ContainsKey(facname))
-            {
-                facilities[facname].amount += amount;
-            }
-            else
-            {
-                Facility f = Facility.facilities[name](this);
-                f.amount = amount;
-                f.owner = owner;
-                facilities.Add(facname, f);
-            }
-        }
+        
 
         public void calc(int time)
         {
-            Dictionary<Good, double> supplyRatio = new Dictionary<Good, double>();
+            Dictionary<Good, double> sdratio = new Dictionary<Good, double>();
+            Dictionary<Good, double> spratio = new Dictionary<Good, double>();
 
             //財ごとに処理が分かれているので、並列処理
-            foreach(Good g in Good.values.Values)
+            foreach (Good g in Good.values.Values)
 
             {
                 double demand = 0;
@@ -61,7 +48,8 @@ namespace EconomySimulator2
                     m.SetMaxStock(stock);
                     m.calc(time, demand, produce);
                     Debug.Print(g.name + " supplyratio : " + m.marketsupply / demand);
-                    supplyRatio.Add(g, m.marketsupply / demand);
+                    sdratio.Add(g, m.marketsupply / demand);
+                    spratio.Add(g, m.marketsupply / produce);
                     foreach (Facility facility in facilities.Values)
                     {
                         if (produce != 0)
@@ -82,7 +70,7 @@ namespace EconomySimulator2
             foreach (Facility facility in facilities.Values)
             {
 
-                facility.setSupplyRatio(supplyRatio);
+                facility.afterMarket(sdratio,spratio);
             }
 
         }

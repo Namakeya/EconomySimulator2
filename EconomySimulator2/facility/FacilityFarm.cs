@@ -57,12 +57,12 @@ namespace EconomySimulator2
             }
         }
 
-        public override void setSupplyRatio(Dictionary<Good, double> ratio)
+        public override void afterMarket(Dictionary<Good, double> sdratio, Dictionary<Good, double> spratio)
         {
             efficiency = 1;
-                if (ratio[Good.WORKER]<1)
+                if (sdratio[Good.WORKER]<1)
                 {
-                    efficiency *= ratio[Good.WORKER];
+                    efficiency *= sdratio[Good.WORKER];
                 }
         }
     }
