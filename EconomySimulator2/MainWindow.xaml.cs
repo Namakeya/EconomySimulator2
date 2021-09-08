@@ -21,6 +21,8 @@ namespace EconomySimulator2
     public partial class MainWindow : Window
     {
         private ThreadTimerTest ttt = new ThreadTimerTest();
+        private Render render = new Render();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,7 +33,10 @@ namespace EconomySimulator2
             Task task = Task.Run(() =>
             {
                 ttt.Start();
-
+            });
+            Task task2 = Task.Run(() =>
+            {
+                render.Start(ttt, this);
             });
             runbutton.IsEnabled = false;
         }

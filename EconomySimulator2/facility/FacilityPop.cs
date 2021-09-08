@@ -9,23 +9,23 @@ namespace EconomySimulator2
         public static string NAME = "Pop";
 
         public double efficiency = 1;
-        
+
         public FacilityPop(string name, Region region) : base(name, region)
         {
 
         }
         public static Facility Factory(Region region)
         {
-            return new FacilityPop(NAME,region);
+            return new FacilityPop(NAME, region);
         }
 
         public override int getDemand(Good good)
         {
-            if(good == Good.GRAIN)
+            if (good == Good.GRAIN)
             {
                 return (int)(0.1 * amount);
             }
-            else if(good == Good.ALCOHOL)
+            else if (good == Good.ALCOHOL)
             {
                 return (int)(0.01 * amount);
             }
@@ -37,7 +37,7 @@ namespace EconomySimulator2
 
         public override int getProduct(Good good)
         {
-            if(good == Good.WORKER)
+            if (good == Good.WORKER)
             {
                 return (int)(amount * efficiency);
             }
@@ -55,7 +55,7 @@ namespace EconomySimulator2
             }
             else
             {
-                return 0;
+                return (int)(amount * 0.01);
             }
         }
 
@@ -64,7 +64,7 @@ namespace EconomySimulator2
             efficiency = 1;
             if (sdratio[Good.GRAIN] < 1)
             {
-                efficiency *= sdratio[Good.GRAIN];
+                efficiency *= 1 - 0.7 * (1 - sdratio[Good.GRAIN]);
             }
         }
     }

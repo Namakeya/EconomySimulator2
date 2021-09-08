@@ -13,7 +13,7 @@ namespace EconomySimulator2
         public Dictionary<string, Facility> facilities = new Dictionary<string, Facility>();
 
 
-        
+
 
         public void calc(int time)
         {
@@ -58,7 +58,7 @@ namespace EconomySimulator2
                     }
 
 
-                        foreach (Facility facility in facilities.Values)
+                    foreach (Facility facility in facilities.Values)
                     {
                         if (produce != 0)
                         {
@@ -78,7 +78,7 @@ namespace EconomySimulator2
             foreach (Facility facility in facilities.Values)
             {
 
-                facility.afterMarket(sdratio,spratio);
+                facility.afterMarket(sdratio, spratio);
             }
 
         }

@@ -9,8 +9,8 @@ namespace EconomySimulator2
         public static string NAME = "Farm";
 
         public double efficiency = 1;
-        
-            
+
+
 
         public FacilityFarm(string name, Region region) : base(name, region)
         {
@@ -18,12 +18,12 @@ namespace EconomySimulator2
         }
         public static Facility Factory(Region region)
         {
-            return new FacilityFarm(NAME,region);
+            return new FacilityFarm(NAME, region);
         }
 
         public override int getDemand(Good good)
         {
-            if(good == Good.WORKER)
+            if (good == Good.WORKER)
             {
                 return 100 * amount;
             }
@@ -35,7 +35,7 @@ namespace EconomySimulator2
 
         public override int getProduct(Good good)
         {
-            if(good == Good.GRAIN)
+            if (good == Good.GRAIN)
             {
                 return (int)(30 * amount * efficiency);
             }
@@ -60,10 +60,10 @@ namespace EconomySimulator2
         public override void afterMarket(Dictionary<Good, double> sdratio, Dictionary<Good, double> spratio)
         {
             efficiency = 1;
-                if (sdratio[Good.WORKER]<1)
-                {
-                    efficiency *= sdratio[Good.WORKER];
-                }
+            if (sdratio[Good.WORKER] < 1)
+            {
+                efficiency *= sdratio[Good.WORKER];
+            }
         }
     }
 }

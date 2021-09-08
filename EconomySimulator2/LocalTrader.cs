@@ -6,11 +6,11 @@ using System.Text;
 
 namespace EconomySimulator2
 {
-    class LocalTrader:Agent
+    class LocalTrader : Agent
     {
-        public int capacity=20;
+        public int capacity = 20;
         public Region destination;
-        public int phase=0;
+        public int phase = 0;
         public Good tradeitem;
 
         public override void Action(int tick)
@@ -21,12 +21,12 @@ namespace EconomySimulator2
                 //価格差が一番大きいモノを選ぶ
                 double pricedif = 0;
                 tradeitem = null;
-                foreach(Market m in location.market.Values)
+                foreach (Market m in location.market.Values)
                 {
                     if (destination.market.ContainsKey(m.good.name))
                     {
                         double p = destination.market[m.good.name].price - m.price;
-                        if(p > pricedif)
+                        if (p > pricedif)
                         {
                             pricedif = p;
                             tradeitem = m.good;
@@ -42,8 +42,8 @@ namespace EconomySimulator2
                     facilityTemporal.demands.Add(tradeitem, capacity);
                 }
 
-                phase=1;
-                Debug.Print("trade item : "+tradeitem) ;
+                phase = 1;
+                Debug.Print("trade item : " + tradeitem);
             }
             else
             {

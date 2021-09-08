@@ -13,10 +13,14 @@ namespace EconomySimulator2
         public double demand;//前回のdemandを記録
         public double supply;//前回のsupplyを記録
         private int maxstock = 200;
-        private int stockbase=10;
+        private int stockbase = 10;
         public int currentstock;
         public double stockgain = 0.01;
         public double maxExp = 5;
+
+
+        public Dictionary<int, double> priceLog = new Dictionary<int, double>();
+        public Dictionary<int, int> supplyLog = new Dictionary<int, int>();
 
         /**直前の生産量*/
         public int basesupply { get; protected set; }
@@ -27,10 +31,17 @@ namespace EconomySimulator2
         /**直前の市場供給量*/
         public int marketsupply { get; protected set; }
 
-        public Market(Good good,Region region)
+        /**直近の平均価格*/
+        public double avrprice { get; protected set; }
+
+        /**何週間の価格を平均するか*/
+        private int avrcount = 24;
+
+        public Market(Good good, Region region)
         {
             this.good = good;
             this.region = region;
+            this.avrprice = good.price;
         }
 
         public void SetMaxStock(int stock)
@@ -40,23 +51,29 @@ namespace EconomySimulator2
         }
 
 
-        public void calc(int time,double demand,int basesupply)
+        public void calc(int time, double demand, int basesupply)
         {
+            if (demand == 0) demand = 1;
+            if (basesupply == 0) basesupply = 1;
+
             this.demand = demand;
             this.supply = basesupply;
-            double pricerate = Math.Pow(demand / basesupply, 1 / (good.elasticity));
+
+            
+            double dsrate = demand / basesupply;
+            dsrate = dsrate > 100 ? 100 : dsrate;
+            double pricerate = Math.Pow(dsrate, 1 / (good.elasticity));
             if (pricerate > 100) pricerate = 100;
             double ex = StockExp(pricerate);
 
             Debug.Print(good.name + " supply: " + basesupply + " pricerate : " + pricerate + " stockrate : " + ex);
 
             //市場価格
-            double dsrate = demand / basesupply;
-            dsrate = dsrate > 100 ? 100 : dsrate;
-            price = good.price * Math.Pow(dsrate, 1 / (good.elasticity + ex));
+            
+            price = avrprice * Math.Pow(dsrate, 1 / (good.elasticity + ex));
 
-            //市場供給量
-            marketsupply = (int)(Math.Pow(price / good.price, ex) * basesupply);
+            //todo 市場供給量 これは供給戦略によって式が変わるので要検討
+            marketsupply = (int)(Math.Pow(price / avrprice, ex) * (basesupply+currentstock/demand));
 
             //備蓄増減 正で増え負で減る
             int stockamount = basesupply - marketsupply;
@@ -66,6 +83,24 @@ namespace EconomySimulator2
 
 
             Debug.Print(good.name + " price: " + price + " stock: " + currentstock);
+
+            priceLog.Add(time, price);
+            supplyLog.Add(time, marketsupply);
+
+            //todo 平均価格(avrprice)を動的に変動させると価格の乱高下が起こるのでとりあえず無視
+            //平均価格は、あくまで「通念上の価格」を表すので色々な決め方がありうる
+            /*
+            if (priceLog.Count > avrcount)
+            {
+                avrprice = 0;
+                for (int i = time; i > time - avrcount; i--)
+                {
+                    avrprice += priceLog[i];
+                }
+                avrprice /= avrcount;
+            }
+            */
+
         }
 
         /**正... 買い 負... 売り*/
@@ -75,11 +110,11 @@ namespace EconomySimulator2
             double pricerate = Math.Pow(demand / basesupply, 1 / (good.elasticity));
             double ex = StockExp(pricerate);
 
-            price = good.price * Math.Pow((marketsupply+amount) / basesupply, 1 / ex);
+            price = avrprice * Math.Pow((marketsupply + amount) / basesupply, 1 / ex);
 
-            double sumprice = good.price / Math.Pow(basesupply,1/ex) * ex / (1 + ex) * (Math.Pow(marketsupply + amount - 0.5, (1 + ex) / ex) - Math.Pow(marketsupply - 0.5, (1 + ex) / ex));
+            double sumprice = avrprice / Math.Pow(basesupply, 1 / ex) * ex / (1 + ex) * (Math.Pow(marketsupply + amount - 0.5, (1 + ex) / ex) - Math.Pow(marketsupply - 0.5, (1 + ex) / ex));
 
-            currentstock-=amount;
+            currentstock -= amount;
 
             Debug.Print(good.name + " sumprice: " + sumprice + " stock: " + currentstock);
             return sumprice;
@@ -88,10 +123,11 @@ namespace EconomySimulator2
         /**備蓄戦略を表している。値が大きいほど備蓄の増減も大きい。価格と在庫量をもとにsigmoid関数を用いて決めているが他にも戦略はありうる*/
         public virtual double StockExp(double pricerate)
         {
-            if(pricerate>1 && currentstock <=0)
+            if (pricerate > 1 && currentstock <= 0)
             {
                 return 0;
-            }else if(pricerate<1 && currentstock > maxstock)
+            }
+            else if (pricerate < 1 && currentstock > maxstock)
             {
                 return 0;
             }

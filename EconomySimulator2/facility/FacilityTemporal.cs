@@ -25,7 +25,8 @@ namespace EconomySimulator2.facility
 
         public override void afterMarket(Dictionary<Good, double> sdratio, Dictionary<Good, double> spratio)
         {
-            foreach(Good g in sdratio.Keys){
+            foreach (Good g in sdratio.Keys)
+            {
                 owner.addGoods(g, (int)(getDemand(g) * sdratio[g]));
             }
             //todo 余った財の返品
@@ -63,7 +64,7 @@ namespace EconomySimulator2.facility
 
         public override void mergeFacility(Facility target)
         {
-            if(target is FacilityTemporal)
+            if (target is FacilityTemporal)
             {
                 FacilityTemporal temp = (FacilityTemporal)target;
                 foreach (Good good in temp.demands.Keys)
@@ -71,7 +72,7 @@ namespace EconomySimulator2.facility
                     int amount = temp.demands[good];
                     if (demands.ContainsKey(good))
                     {
-                        
+
                         if (demands[good] + amount > 0)
                         {
                             demands[good] = demands[good] + amount;

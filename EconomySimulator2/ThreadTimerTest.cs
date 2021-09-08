@@ -41,8 +41,8 @@ namespace EconomySimulator2
             trader.destination = r2;
             Agent.addAgent(trader);
 
-            Facility.addFacility("Farm", 7,local,r1);
-            Facility.addFacility("Pop", 2000,local,r1);
+            Facility.addFacility("Farm", 7, local, r1);
+            Facility.addFacility("Pop", 2000, local, r1);
 
             Facility.addFacility("Farm", 8, local2, r2);
             Facility.addFacility("Pop", 1000, local2, r2);
@@ -60,7 +60,8 @@ namespace EconomySimulator2
         public void Run()
         {
             Debug.Print("tick : " + tick);
-            foreach(Agent agent in Agent.agents.Values){
+            foreach (Agent agent in Agent.agents.Values)
+            {
                 agent.Action(tick);
             }
             r1.calc(tick);
@@ -77,8 +78,8 @@ namespace EconomySimulator2
                 r2.market["Grain"].buy(-5);
             }
             */
-            
-            
+
+
             //r1.calc(g2,tick);
             tick++;
 

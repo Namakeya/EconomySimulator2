@@ -11,6 +11,7 @@
         <TextBox Text="TextBox" TextWrapping="Wrap" Margin="10,83,625,306"/>
         <TextBox Text="TextBox" TextWrapping="Wrap" Margin="10,172,625,217"/>
         <Button x:Name="runbutton" Content="RUN" Margin="27,326,533,24" Click="Button_Click"/>
+        <WpfPlot x:Name="pricechart1" HorizontalAlignment="Left" Margin="298,10,0,0" VerticalAlignment="Top" Height="207" Width="502"/>
 
     </Grid>
 </Window>

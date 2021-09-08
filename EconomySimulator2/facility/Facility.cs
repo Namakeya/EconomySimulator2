@@ -15,7 +15,7 @@ namespace EconomySimulator2
         public Region region;
         public Agent owner;
 
-        public Facility(string name,Region region)
+        public Facility(string name, Region region)
         {
             this.name = name;
             this.region = region;
@@ -29,7 +29,7 @@ namespace EconomySimulator2
         /**@param sdratio : 市場供給量/需要
          * @param spratio : 市場供給量/生産量
          */
-        public abstract void afterMarket(Dictionary<Good,double> sdratio, Dictionary<Good, double> spratio);
+        public abstract void afterMarket(Dictionary<Good, double> sdratio, Dictionary<Good, double> spratio);
 
         public abstract int getStock(Good good);
 
@@ -49,11 +49,11 @@ namespace EconomySimulator2
             return f;
         }
 
-            public static Facility addFacility(string name, int amount, Agent owner,Region region)
+        public static Facility addFacility(string name, int amount, Agent owner, Region region)
         {
-            
-            return addFacility(makeFacility(name,amount,owner,region),owner,region);
-            
+
+            return addFacility(makeFacility(name, amount, owner, region), owner, region);
+
         }
         public static Facility addFacility(Facility facility, Agent owner, Region region)
         {
@@ -84,7 +84,7 @@ namespace EconomySimulator2
             }
             else
             {
-                Debug.Print(facility.region.name+" does not have facility "+facility.name);
+                Debug.Print(facility.region.name + " does not have facility " + facility.name);
             }
         }
 

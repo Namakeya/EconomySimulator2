@@ -16,7 +16,7 @@ namespace EconomySimulator2
 
         public virtual void Action(int tick)
         {
-            Debug.Print(name+" money : " + money);
+            Debug.Print(name + " money : " + money);
         }
 
         public static void addAgent(Agent agent)
@@ -24,7 +24,7 @@ namespace EconomySimulator2
             agents.Add(agent.name, agent);
         }
 
-        public void addGoods(Good good,int amount)
+        public void addGoods(Good good, int amount)
         {
             if (amount == 0) return;
             if (goods.ContainsKey(good))

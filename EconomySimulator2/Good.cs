@@ -27,10 +27,10 @@ namespace EconomySimulator2
             return name;
         }
 
-        public static Good WORKER = new Good("Worker", 5,1);
+        public static Good WORKER = new Good("Worker", 5, 1);
 
-        public static Good GRAIN= new Good("Grain", 100, 0.5);
-        
-        public static Good ALCOHOL= new Good("Alcohol", 100, 1.5);
+        public static Good GRAIN = new Good("Grain", 100, 0.5);
+
+        public static Good ALCOHOL = new Good("Alcohol", 100, 1.5);
     }
 }
