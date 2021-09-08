@@ -10,11 +10,11 @@ namespace EconomySimulator2
     class Render
     {
 
-        public void Start(ThreadTimerTest ttt, MainWindow mainWindow)
+        public void Start(ThreadTimerTest ttt, PageMap mainWindow)
         {
-
-            mainWindow.pricechart1.Plot.SetAxisLimitsX(0, 100);
-            mainWindow.pricechart1.Plot.SetAxisLimitsY(0, 1000);
+            PageGraph pagegraph = mainWindow.pageGraph;
+            pagegraph.pricechart1.Plot.SetAxisLimitsX(0, 100);
+            pagegraph.pricechart1.Plot.SetAxisLimitsY(0, 1000);
             while (true)
             {
                 Run(ttt, mainWindow);
@@ -22,10 +22,10 @@ namespace EconomySimulator2
             }
         }
 
-        public void Run(ThreadTimerTest ttt, MainWindow mainWindow)
+        public void Run(ThreadTimerTest ttt, PageMap mainWindow)
         {
             Debug.Print("render");
-
+            PageGraph pagegraph = mainWindow.pageGraph;
             if (ttt.r1.market.ContainsKey(Good.ALCOHOL.name))
             {
                 var syncObject = new object();
@@ -41,11 +41,11 @@ namespace EconomySimulator2
                         i++;
                     }
                 }
-                mainWindow.pricechart1.Plot.Clear();
+                pagegraph.pricechart1.Plot.Clear();
 
-                SignalPlot sp = mainWindow.pricechart1.Plot.AddSignal(points);
+                SignalPlot sp = pagegraph.pricechart1.Plot.AddSignal(points);
 
-                mainWindow.pricechart1.Plot.Render();
+                pagegraph.pricechart1.Plot.Render();
 
             }
 

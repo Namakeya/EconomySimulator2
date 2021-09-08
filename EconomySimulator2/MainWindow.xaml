@@ -1,17 +1,10 @@
-﻿<Window x:Class="EconomySimulator2.MainWindow"
+﻿<NavigationWindow x:Class="EconomySimulator2.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EconomySimulator2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <TextBox Text="TextBox" TextWrapping="Wrap" Margin="10,10,625,379"/>
-        <TextBox Text="TextBox" TextWrapping="Wrap" Margin="10,83,625,306"/>
-        <TextBox Text="TextBox" TextWrapping="Wrap" Margin="10,172,625,217"/>
-        <Button x:Name="runbutton" Content="RUN" Margin="27,326,533,24" Click="Button_Click"/>
-        <WpfPlot x:Name="pricechart1" HorizontalAlignment="Left" Margin="298,10,0,0" VerticalAlignment="Top" Height="207" Width="502"/>
+        Title="MainWindow" Height="550" Width="800" Source="PageMap.xaml">
 
-    </Grid>
-</Window>
+</NavigationWindow>

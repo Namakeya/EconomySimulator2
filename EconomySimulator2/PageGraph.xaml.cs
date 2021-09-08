@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,16 +14,21 @@ using System.Windows.Shapes;
 namespace EconomySimulator2
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// PageGraph.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : NavigationWindow
+    public partial class PageGraph : Page
     {
-     
-
-        public MainWindow()
+        public Page pagemap;
+        public PageGraph(Page pagemap)
         {
             InitializeComponent();
+            this.pagemap = pagemap;
+        }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
+            NavigationService.Navigate(pagemap);
         }
 
     }
