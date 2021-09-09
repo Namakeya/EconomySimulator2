@@ -55,5 +55,10 @@ namespace EconomySimulator2
                 return 0;
             }
         }
+
+        public override string ToString()
+        {
+            return name;
+        }
     }
 }

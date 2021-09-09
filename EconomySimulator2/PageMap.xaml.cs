@@ -22,10 +22,21 @@ namespace EconomySimulator2
         public PageGraph pageGraph;
         private ThreadTimerTest ttt = new ThreadTimerTest();
         private Render render = new Render();
+        public string itemname;
         public PageMap()
         {
             InitializeComponent();
+            foreach(Good good in Good.values.Values)
+            {
+                MyComboBox.Items.Add(good.name);
+            }
             pageGraph = new PageGraph(this);
+        }
+
+        public void setComboBoxSelection(object s)
+        {
+            MyComboBox.SelectedItem = s;
+            itemname = (string)s;
         }
 
         private void buttonToGraph_Click(object sender, RoutedEventArgs e)
@@ -44,6 +55,12 @@ namespace EconomySimulator2
                 render.Start(ttt, this);
             });
             runButton.IsEnabled = false;
+        }
+
+        private void MyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            pageGraph.setComboBoxSelection(MyComboBox.SelectedItem);
+            itemname = (string)MyComboBox.SelectedItem;
         }
     }
 }

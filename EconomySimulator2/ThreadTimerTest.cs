@@ -30,10 +30,12 @@ namespace EconomySimulator2
             local.name = r1.name + "_local";
             local.location = r1;
             Agent.addAgent(local);
+            r1.localpeople = local;
             Agent local2 = new Agent();
             local2.name = r2.name + "_local";
             local2.location = r2;
             Agent.addAgent(local2);
+            r2.localpeople = local2;
 
             LocalTrader trader = new LocalTrader();
             trader.name = r1.name + "_localtrader";

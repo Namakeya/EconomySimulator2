@@ -18,17 +18,31 @@ namespace EconomySimulator2
     /// </summary>
     public partial class PageGraph : Page
     {
-        public Page pagemap;
-        public PageGraph(Page pagemap)
+        public PageMap pagemap;
+        public PageGraph(PageMap pagemap)
         {
             InitializeComponent();
             this.pagemap = pagemap;
+            foreach (Good good in Good.values.Values)
+            {
+                MyComboBox.Items.Add(good.name);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             
             NavigationService.Navigate(pagemap);
+        }
+
+        public void setComboBoxSelection(object s)
+        {
+            MyComboBox.SelectedItem = s;
+        }
+
+        private void MyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            pagemap.setComboBoxSelection(MyComboBox.SelectedItem);
         }
 
     }

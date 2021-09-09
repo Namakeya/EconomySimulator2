@@ -13,6 +13,12 @@
         <Label FontSize="50">Page2</Label>
         <Button x:Name="buttonToGraph" Content="グラフ" Margin="311,384,311,10" Click="buttonToGraph_Click"/>
         <Button x:Name="runButton" Content="RUN" Margin="43,343,539,35" Click="runButton_Click"/>
-
+        <StackPanel Orientation="Horizontal" Margin="567,10,10,346">
+            <ComboBox x:Name="MyComboBox"
+              Height="30"
+              Width="200"
+              FontSize="20" SelectionChanged="MyComboBox_SelectionChanged"
+              />
+        </StackPanel>
     </Grid>
 </Page>

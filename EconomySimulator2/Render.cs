@@ -26,13 +26,14 @@ namespace EconomySimulator2
         {
             Debug.Print("render");
             PageGraph pagegraph = mainWindow.pageGraph;
-            if (ttt.r1.market.ContainsKey(Good.ALCOHOL.name))
+            var syncObject = new object();
+            lock (syncObject)
             {
-                var syncObject = new object();
-                double[] points;
-                lock (syncObject) 
-                { 
-                    Market market = ttt.r1.market[Good.ALCOHOL.name];
+                if (mainWindow.itemname != null && ttt.r1.market.ContainsKey(mainWindow.itemname))
+                {
+                    double[] points;
+
+                    Market market = ttt.r1.market[mainWindow.itemname];
                     points = new double[market.priceLog.Count];
                     int i = 0;
                     foreach (double price in market.priceLog.Values)
@@ -40,12 +41,30 @@ namespace EconomySimulator2
                         points[i] = price;
                         i++;
                     }
+
+                    pagegraph.pricechart1.Plot.Clear();
+                    pagegraph.pricechart1.Plot.Title("Price");
+
+                    SignalPlot sp = pagegraph.pricechart1.Plot.AddSignal(points);
+
+                    pagegraph.pricechart1.Plot.Render();
+
+                    double[] points2;
+
+                    points2 = new double[market.supplyLog.Count];
+                    int j = 0;
+                    foreach (double supply in market.supplyLog.Values)
+                    {
+                        points2[j] = supply;
+                        j++;
+                    }
+
+                    pagegraph.supplychart1.Plot.Clear();
+                    pagegraph.supplychart1.Plot.Title("Supply");
+                    SignalPlot sp2 = pagegraph.supplychart1.Plot.AddSignal(points2);
+
+                    pagegraph.supplychart1.Plot.Render();
                 }
-                pagegraph.pricechart1.Plot.Clear();
-
-                SignalPlot sp = pagegraph.pricechart1.Plot.AddSignal(points);
-
-                pagegraph.pricechart1.Plot.Render();
 
             }
 

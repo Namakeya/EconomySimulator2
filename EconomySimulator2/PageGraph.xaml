@@ -14,7 +14,14 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Button Grid.Row="1" Click="Button_Click">戻る</Button>
-        <WpfPlot x:Name="pricechart1" HorizontalAlignment="Left" Margin="298,10,0,0" VerticalAlignment="Top" Height="207" Width="502"/>
-
+        <WpfPlot x:Name="pricechart1" HorizontalAlignment="Left" Margin="72,225,0,0" VerticalAlignment="Top" Height="175" Width="483"/>
+        <StackPanel Orientation="Horizontal" Margin="567,10,10,346">
+            <ComboBox x:Name="MyComboBox"
+              Height="30"
+              Width="200"
+              FontSize="20" SelectionChanged="MyComboBox_SelectionChanged"
+              />
+        </StackPanel>
+        <WpfPlot x:Name="supplychart1" HorizontalAlignment="Left" Margin="72,21,0,0" VerticalAlignment="Top" Height="175" Width="483"/>
     </Grid>
 </Page>

@@ -53,8 +53,7 @@ namespace EconomySimulator2
 
         public void calc(int time, double demand, int basesupply)
         {
-            if (demand == 0) demand = 1;
-            if (basesupply == 0) basesupply = 1;
+            
 
             this.demand = demand;
             this.supply = basesupply;

@@ -12,7 +12,7 @@ namespace EconomySimulator2
         public Dictionary<string, Market> market = new Dictionary<string, Market>();
         public Dictionary<string, Facility> facilities = new Dictionary<string, Facility>();
 
-
+        public Agent localpeople;
 
 
         public void calc(int time)
@@ -45,30 +45,59 @@ namespace EconomySimulator2
                     {
                         m = market[g.name];
                     }
+
+                    /**0だと数学的に都合が悪いので1にする*/
+                    bool demandmod=false, producemod=false;
+                    if (demand == 0)
+                    {
+                        demand = 1;
+                        demandmod = true;
+                    }
+                    if (produce == 0)
+                    {
+                        producemod = true;
+                        produce = 1;
+                    }
                     m.SetMaxStock(stock);
                     m.calc(time, demand, produce);
                     if (produce != 0)
                     {
                         spratio.Add(g, m.marketsupply / produce);
                     }
+
                     if (demand != 0)
                     {
                         Debug.Print(g.name + " supplyratio : " + m.marketsupply / demand);
                         sdratio.Add(g, m.marketsupply / demand);
                     }
 
+                    /**需要や供給を1増やした場合は、それを地元住民が需要/供給したということにする*/
+                    if (producemod)
+                    {
+                        double moneychange = (double)m.marketsupply / produce * 1 * m.price;
+                        Debug.Print(g.name + " " + moneychange + " -> " + localpeople);
+                        localpeople.money += moneychange;
+                    }
 
+                    if (demandmod)
+                    {
+                        double moneychange = (double)m.marketsupply / demand * 1 * m.price;
+                        Debug.Print(g.name + " " + localpeople + " -> " + moneychange);
+                        localpeople.money -= moneychange;
+                    }
                     foreach (Facility facility in facilities.Values)
                     {
                         if (produce != 0)
                         {
-                            //Debug.Print(g.name + " marketsupply: " + m.marketsupply +" produce: "+ facility.getProduct(g));
-                            facility.owner.money += (double)m.marketsupply / produce * facility.getProduct(g) * m.price;
+                            double moneychange = (double)m.marketsupply / produce * facility.getProduct(g) * m.price;
+                            Debug.Print(g.name +" " +moneychange+ " -> "+facility.owner);
+                            facility.owner.money += moneychange;
                         }
                         if (demand != 0)
                         {
-                            //Debug.Print(g.name + " cost " + m.marketsupply / demand * facility.getDemand(g) * m.price);
-                            facility.owner.money -= (double)m.marketsupply / demand * facility.getDemand(g) * m.price;
+                            double moneychange = (double)m.marketsupply / demand * facility.getDemand(g) * m.price;
+                            Debug.Print(g.name + " " + facility.owner + " -> " + moneychange);
+                            facility.owner.money -= moneychange;
                         }
 
                     }
