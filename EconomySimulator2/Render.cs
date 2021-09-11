@@ -27,7 +27,7 @@ namespace EconomySimulator2
 
         public void Run(ThreadTimerTest ttt, PageMap mainWindow)
         {
-            Debug.Print("render");
+            //Debug.Print("render");
             PageGraph pagegraph = mainWindow.pageGraph;
             var syncObject = new object();
             lock (syncObject)
@@ -65,6 +65,21 @@ namespace EconomySimulator2
                         j++;
                     }
 
+                    string facilitytext = "";
+                    foreach(Facility f in region.facilities.Values)
+                    {
+                        facilitytext += f.name+" : "+f.amount+"\n";
+                    }
+
+                    string agenttext = "";
+                    foreach (Agent f in Agent.agents.Values)
+                    {
+                        if (f.location == region)
+                        {
+                            agenttext += f.name + " : " + $"{f.money:f0}" + "\n";
+                        }
+                    }
+
                     pagegraph.Dispatcher.Invoke((Action)(() =>
                     {
                         pagegraph.pricechart1.Plot.Clear();
@@ -79,6 +94,10 @@ namespace EconomySimulator2
                         SignalPlot sp2 = pagegraph.supplychart1.Plot.AddSignal(points2);
 
                         pagegraph.supplychart1.Plot.Render();
+
+                        pagegraph.facilityLabel.Content = facilitytext;
+
+                        pagegraph.agentLabel.Content = agenttext;
                     }));
                         
                 }
