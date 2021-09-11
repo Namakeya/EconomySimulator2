@@ -20,9 +20,12 @@ namespace EconomySimulator2
     public partial class PageMap : Page
     {
         public PageGraph pageGraph;
-        private ThreadTimerTest ttt = new ThreadTimerTest();
+        private ThreadTimerTest ttt;
         private Render render = new Render();
         public string itemname;
+        public int timerdelay = 500;
+        public bool stop=false;
+        public bool isrunning = false;
         public PageMap()
         {
             InitializeComponent();
@@ -31,6 +34,8 @@ namespace EconomySimulator2
                 MyComboBox.Items.Add(good.name);
             }
             pageGraph = new PageGraph(this);
+            ttt = new ThreadTimerTest();
+            ttt.Setup(this);
         }
 
         public void setComboBoxSelection(object s)
@@ -39,28 +44,58 @@ namespace EconomySimulator2
             itemname = (string)s;
         }
 
-        private void buttonToGraph_Click(object sender, RoutedEventArgs e)
+        public void clickRegionButton(Object region)
         {
+            render.region = (Region)region;
             NavigationService.Navigate(pageGraph);
         }
 
+
         private void runButton_Click(object sender, RoutedEventArgs e)
         {
-            Task task = Task.Run(() =>
+
+            changeSpeed(800);
+        }
+
+        public void changeSpeed(int delay)
+        {
+            this.stop = false;
+            this.timerdelay = delay;
+            if (!isrunning)
             {
-                ttt.Start();
-            });
-            Task task2 = Task.Run(() =>
-            {
-                render.Start(ttt, this);
-            });
-            runButton.IsEnabled = false;
+                isrunning = true;
+                
+
+                Task task = Task.Run(() =>
+                {
+                    ttt.Start();
+                });
+                Task task2 = Task.Run(() =>
+                {
+                    render.Start(ttt, this);
+                });
+            }
         }
 
         private void MyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             pageGraph.setComboBoxSelection(MyComboBox.SelectedItem);
             itemname = (string)MyComboBox.SelectedItem;
+        }
+
+        private void stopButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.stop = true;
+        }
+
+        private void x3Button_Click(object sender, RoutedEventArgs e)
+        {
+            changeSpeed(200);
+        }
+
+        private void x2Button_Click(object sender, RoutedEventArgs e)
+        {
+            changeSpeed(500);
         }
     }
 }

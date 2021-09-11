@@ -10,6 +10,8 @@ namespace EconomySimulator2
     class Render
     {
 
+        public Region region;
+
         public void Start(ThreadTimerTest ttt, PageMap mainWindow)
         {
             PageGraph pagegraph = mainWindow.pageGraph;
@@ -29,15 +31,19 @@ namespace EconomySimulator2
             var syncObject = new object();
             lock (syncObject)
             {
-                if (mainWindow.itemname != null && ttt.r1.market.ContainsKey(mainWindow.itemname))
+                if (mainWindow.itemname != null && region.market.ContainsKey(mainWindow.itemname))
                 {
                     double[] points;
 
-                    Market market = ttt.r1.market[mainWindow.itemname];
-                    points = new double[market.priceLog.Count];
+                    Market market = region.market[mainWindow.itemname];
+                    points = new double[market.priceLog.Count>100?100: market.priceLog.Count];
                     int i = 0;
                     foreach (double price in market.priceLog.Values)
                     {
+                        if (i >= points.Length)
+                        {
+                            break;
+                        }
                         points[i] = price;
                         i++;
                     }
@@ -51,10 +57,14 @@ namespace EconomySimulator2
 
                     double[] points2;
 
-                    points2 = new double[market.supplyLog.Count];
+                    points2 = new double[market.supplyLog.Count > 100 ? 100 : market.supplyLog.Count];
                     int j = 0;
                     foreach (double supply in market.supplyLog.Values)
                     {
+                        if (i >= points.Length)
+                        {
+                            break;
+                        }
                         points2[j] = supply;
                         j++;
                     }
