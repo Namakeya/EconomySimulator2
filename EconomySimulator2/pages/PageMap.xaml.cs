@@ -22,10 +22,12 @@ namespace EconomySimulator2
         public PageGraph pageGraph;
         private ThreadTimerTest ttt;
         private Render render = new Render();
+        private RenderMap renderMap = new RenderMap();
         public string itemname;
         public int timerdelay = 500;
         public bool stop=false;
         public bool isrunning = false;
+
         public PageMap()
         {
             InitializeComponent();
@@ -44,7 +46,7 @@ namespace EconomySimulator2
             itemname = (string)s;
         }
 
-        public void clickRegionButton(Object region)
+        public void clickRegionButton(object region)
         {
             render.region = (Region)region;
             NavigationService.Navigate(pageGraph);
@@ -74,6 +76,11 @@ namespace EconomySimulator2
                 {
                     render.Start(ttt, this);
                 });
+                Task task3 = Task.Run(() =>
+                {
+                    renderMap.Start(ttt, this);
+                });
+              
             }
         }
 

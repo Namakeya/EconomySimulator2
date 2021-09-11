@@ -15,12 +15,13 @@ namespace EconomySimulator2
         public void Start(ThreadTimerTest ttt, PageMap mainWindow)
         {
             PageGraph pagegraph = mainWindow.pageGraph;
+            region = ttt.regions[0];
             pagegraph.pricechart1.Plot.SetAxisLimitsX(0, 100);
             pagegraph.pricechart1.Plot.SetAxisLimitsY(0, 1000);
             while (true)
             {
                 Run(ttt, mainWindow);
-                Thread.Sleep(500);
+                Thread.Sleep(100);
             }
         }
 
@@ -48,12 +49,7 @@ namespace EconomySimulator2
                         i++;
                     }
 
-                    pagegraph.pricechart1.Plot.Clear();
-                    pagegraph.pricechart1.Plot.Title("Price");
-
-                    SignalPlot sp = pagegraph.pricechart1.Plot.AddSignal(points);
-
-                    pagegraph.pricechart1.Plot.Render();
+                    
 
                     double[] points2;
 
@@ -69,11 +65,22 @@ namespace EconomySimulator2
                         j++;
                     }
 
-                    pagegraph.supplychart1.Plot.Clear();
-                    pagegraph.supplychart1.Plot.Title("Supply");
-                    SignalPlot sp2 = pagegraph.supplychart1.Plot.AddSignal(points2);
+                    pagegraph.Dispatcher.Invoke((Action)(() =>
+                    {
+                        pagegraph.pricechart1.Plot.Clear();
+                        pagegraph.pricechart1.Plot.Title("Price");
 
-                    pagegraph.supplychart1.Plot.Render();
+                        SignalPlot sp = pagegraph.pricechart1.Plot.AddSignal(points);
+
+                        pagegraph.pricechart1.Plot.Render();
+
+                        pagegraph.supplychart1.Plot.Clear();
+                        pagegraph.supplychart1.Plot.Title("Supply");
+                        SignalPlot sp2 = pagegraph.supplychart1.Plot.AddSignal(points2);
+
+                        pagegraph.supplychart1.Plot.Render();
+                    }));
+                        
                 }
 
             }
