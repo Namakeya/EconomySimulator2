@@ -13,8 +13,8 @@ namespace EconomySimulator2
     {
         public int tick;
 
-        public static readonly int regionCount=2;
-        public Region[] regions=new Region[regionCount];
+        public static readonly int regionCount = 2;
+        public Region[] regions = new Region[regionCount];
 
         public Vector[] regionspos = new Vector[regionCount];
 
@@ -68,11 +68,11 @@ namespace EconomySimulator2
             //r1.addMarket(new Market(g2, 10, new Supply(g1, 12, 100,0)));
 
             regions[0] = r1;
-            regionspos[0] = new Vector(30,30);
+            regionspos[0] = new Vector(30, 30);
             regions[1] = r2;
             regionspos[0] = new Vector(80, 30);
 
-            for(int i=0;i<regions.Length;i++)
+            for (int i = 0; i < regions.Length; i++)
             {
                 Region r = regions[i];
                 Vector v = regionspos[i];
@@ -86,9 +86,9 @@ namespace EconomySimulator2
                 margin.Top = v.Y;
                 margin.Bottom = pageMap.ActualHeight - v.Y - 30;
                 */
-                
 
-                b1.Margin = new Thickness(v.X*2-300,v.Y*2-300,0,0);
+
+                b1.Margin = new Thickness(v.X * 2 - 300, v.Y * 2 - 300, 0, 0);
                 b1.Width = 60;
                 b1.Height = 40;
                 b1.Click += (sender, e) => ButtonDynamicEvent(sender);
@@ -101,7 +101,7 @@ namespace EconomySimulator2
 
         public void Start()
         {
-           
+
 
             while (true)
             {
@@ -120,9 +120,10 @@ namespace EconomySimulator2
         {
             Debug.WriteLine(((Button)sender).Name + "がクリックされました。");
             string name = ((Button)sender).Name;
-            string regionname=name.Substring(7);
+            string regionname = name.Substring(7);
 
-            foreach(Region r in regions){
+            foreach (Region r in regions)
+            {
                 if (r.name.Equals(regionname))
                 {
                     pageMap.clickRegionButton(r);
@@ -137,7 +138,8 @@ namespace EconomySimulator2
                 agent.Action(tick);
             }
 
-            foreach(Region r in regions){
+            foreach (Region r in regions)
+            {
                 r.calc(tick);
             }
             /*

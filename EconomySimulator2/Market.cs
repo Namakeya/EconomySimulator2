@@ -53,12 +53,12 @@ namespace EconomySimulator2
 
         public void calc(int time, double demand, int basesupply)
         {
-            
+
 
             this.demand = demand;
             this.supply = basesupply;
 
-            
+
             double dsrate = demand / basesupply;
             dsrate = dsrate > 100 ? 100 : dsrate;
             double pricerate = Math.Pow(dsrate, 1 / (good.elasticity));
@@ -68,11 +68,11 @@ namespace EconomySimulator2
             Debug.Print(good.name + " supply: " + basesupply + " pricerate : " + pricerate + " stockrate : " + ex);
 
             //市場価格
-            
+
             price = avrprice * Math.Pow(dsrate, 1 / (good.elasticity + ex));
 
             //todo 市場供給量 これは供給戦略によって式が変わるので要検討
-            marketsupply = (int)(Math.Pow(price / avrprice, ex) * (basesupply+currentstock/demand));
+            marketsupply = (int)(Math.Pow(price / avrprice, ex) * (basesupply + currentstock / demand));
 
             //備蓄増減 正で増え負で減る
             int stockamount = basesupply - marketsupply;
@@ -85,6 +85,7 @@ namespace EconomySimulator2
 
             priceLog.Add(time, price);
             supplyLog.Add(time, marketsupply);
+
 
             //todo 平均価格(avrprice)を動的に変動させると価格の乱高下が起こるのでとりあえず無視
             //平均価格は、あくまで「通念上の価格」を表すので色々な決め方がありうる
@@ -103,7 +104,7 @@ namespace EconomySimulator2
         }
 
         /**正... 買い 負... 売り*/
-        public double buy(int amount)
+        public double buy(int tick, int amount, Agent agent)
         {
             double prev = price;
             double pricerate = Math.Pow(demand / basesupply, 1 / (good.elasticity));
@@ -116,6 +117,19 @@ namespace EconomySimulator2
             currentstock -= amount;
 
             Debug.Print(good.name + " sumprice: " + sumprice + " stock: " + currentstock);
+            lock (region.transactionLockObject)
+            {
+                if (amount > 0)
+                {
+                    region.transactionLog.Add(new Transaction(tick, prev, -amount, -sumprice, good, agent.name, "market"));
+
+                }
+                else
+                {
+                    region.transactionLog.Add(new Transaction(tick, prev, amount, sumprice, good, "market", agent.name));
+
+                }
+            }
             return sumprice;
         }
 
@@ -146,4 +160,6 @@ namespace EconomySimulator2
         }
 
     }
+
+
 }

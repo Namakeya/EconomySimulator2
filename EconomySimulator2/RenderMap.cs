@@ -19,8 +19,10 @@ namespace EconomySimulator2
 
         public void Run(ThreadTimerTest ttt, PageMap mainWindow)
         {
-            if (mainWindow.itemname != null) {
-                for (int i = 0; i < ThreadTimerTest.regionCount; i++) {
+            if (mainWindow.itemname != null)
+            {
+                for (int i = 0; i < ThreadTimerTest.regionCount; i++)
+                {
                     if (ttt.regions[i].market.ContainsKey(mainWindow.itemname))
                     {
                         Market market = ttt.regions[i].market[mainWindow.itemname];

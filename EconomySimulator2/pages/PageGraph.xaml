@@ -41,6 +41,11 @@
                     <Label Name="agentLabel" Content="" Background="White" FontSize="15"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="History">
+                <Grid Background="#FFE5E5E5">
+                    <TextBox Name="historyLabel" Background="White" FontSize="15" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Page>

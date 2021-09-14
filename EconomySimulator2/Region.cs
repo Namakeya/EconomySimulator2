@@ -12,6 +12,8 @@ namespace EconomySimulator2
         public Dictionary<string, Market> market = new Dictionary<string, Market>();
         public Dictionary<string, Facility> facilities = new Dictionary<string, Facility>();
 
+        public object transactionLockObject=new object();
+        public List<Transaction> transactionLog = new List<Transaction>();
         public Agent localpeople;
 
 
@@ -47,7 +49,7 @@ namespace EconomySimulator2
                     }
 
                     /**0だと数学的に都合が悪いので1にする*/
-                    bool demandmod=false, producemod=false;
+                    bool demandmod = false, producemod = false;
                     if (demand == 0)
                     {
                         demand = 1;
@@ -85,21 +87,28 @@ namespace EconomySimulator2
                         Debug.Print(g.name + " " + localpeople + " -> " + moneychange);
                         localpeople.money -= moneychange;
                     }
-                    foreach (Facility facility in facilities.Values)
+                    lock (transactionLockObject)
                     {
-                        if (produce != 0)
+                        foreach (Facility facility in facilities.Values)
                         {
-                            double moneychange = (double)m.marketsupply / produce * facility.getProduct(g) * m.price;
-                            Debug.Print(g.name +" " +moneychange+ " -> "+facility.owner);
-                            facility.owner.money += moneychange;
-                        }
-                        if (demand != 0)
-                        {
-                            double moneychange = (double)m.marketsupply / demand * facility.getDemand(g) * m.price;
-                            Debug.Print(g.name + " " + facility.owner + " -> " + moneychange);
-                            facility.owner.money -= moneychange;
-                        }
+                            if (produce != 0 && facility.getProduct(g) != 0)
+                            {
+                                int amount = (int)((double)m.marketsupply / produce * facility.getProduct(g));
+                                double moneychange = amount * m.price;
+                                Debug.Print(g.name + " " + moneychange + " -> " + facility.owner);
+                                facility.owner.money += moneychange;
+                                transactionLog.Add(new Transaction(time, m.price, amount, moneychange, m.good, facility.name, "market"));
+                            }
+                            if (demand != 0 && facility.getDemand(g) != 0)
+                            {
+                                int amount = (int)((double)m.marketsupply / demand * facility.getDemand(g));
+                                double moneychange = amount * m.price;
+                                Debug.Print(g.name + " " + facility.owner + " -> " + moneychange);
+                                facility.owner.money -= moneychange;
+                                transactionLog.Add(new Transaction(time, m.price, amount, moneychange, m.good, "market", facility.name));
+                            }
 
+                        }
                     }
                 }
 
@@ -109,6 +118,38 @@ namespace EconomySimulator2
 
                 facility.afterMarket(sdratio, spratio);
             }
+
+        }
+    }
+
+    class Transaction
+    {
+        public readonly int tick;
+        public readonly double price;
+        public readonly int amount;
+        public readonly double total;
+        public readonly Good good;
+        public readonly string buyer;//Agentは消えたり生まれたりする可能性があるのでstringで保管
+        public readonly string seller;
+        public readonly string log;
+
+        public Transaction(int tick, double price, int amount, double total, Good good, string buyer, string seller)
+        {
+            this.tick = tick;
+            this.price = price;
+            this.amount = amount;
+            this.total = total;
+            this.good = good;
+            this.buyer = buyer;
+            this.seller = seller;
+            this.log = new StringBuilder().Append("at ").Append(tick).Append(" : ").Append(good.name).Append(" :\t").Append(buyer).Append(" -> ").Append(seller).Append("\t")
+                .Append(amount).Append(" * ").Append($"{price:f2}").Append(" = ").Append($"{total:f2}").ToString();
+        }
+
+        public override string ToString()
+        {
+            return log;
+
 
         }
     }

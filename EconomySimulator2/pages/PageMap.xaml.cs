@@ -25,13 +25,13 @@ namespace EconomySimulator2
         private RenderMap renderMap = new RenderMap();
         public string itemname;
         public int timerdelay = 500;
-        public bool stop=false;
+        public bool stop = false;
         public bool isrunning = false;
 
         public PageMap()
         {
             InitializeComponent();
-            foreach(Good good in Good.values.Values)
+            foreach (Good good in Good.values.Values)
             {
                 MyComboBox.Items.Add(good.name);
             }
@@ -66,7 +66,7 @@ namespace EconomySimulator2
             if (!isrunning)
             {
                 isrunning = true;
-                
+
 
                 Task task = Task.Run(() =>
                 {
@@ -80,7 +80,7 @@ namespace EconomySimulator2
                 {
                     renderMap.Start(ttt, this);
                 });
-              
+
             }
         }
 

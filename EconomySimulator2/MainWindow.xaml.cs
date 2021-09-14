@@ -20,7 +20,7 @@ namespace EconomySimulator2
     /// </summary>
     public partial class MainWindow : NavigationWindow
     {
-     
+
 
         public MainWindow()
         {
