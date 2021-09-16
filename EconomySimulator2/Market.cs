@@ -82,9 +82,14 @@ namespace EconomySimulator2
 
 
             Debug.Print(good.name + " price: " + price + " stock: " + currentstock);
-
-            priceLog.Add(time, price);
-            supplyLog.Add(time, marketsupply);
+            lock (priceLog)
+            {
+                priceLog.Add(time, price);
+            }
+            lock (supplyLog)
+            {
+                supplyLog.Add(time, marketsupply);
+            }
 
 
             //todo 平均価格(avrprice)を動的に変動させると価格の乱高下が起こるのでとりあえず無視

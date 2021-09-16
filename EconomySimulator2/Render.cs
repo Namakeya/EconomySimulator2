@@ -34,32 +34,36 @@ namespace EconomySimulator2
                 double[] points;
 
                 Market market = region.market[mainWindow.itemname];
-                points = new double[market.priceLog.Count > 100 ? 100 : market.priceLog.Count];
-                int i = 0;
-                foreach (double price in market.priceLog.Values)
+                lock (market.priceLog)
                 {
-                    if (i >= points.Length)
+                    points = new double[market.priceLog.Count > 100 ? 100 : market.priceLog.Count];
+                    int i = 0;
+                    foreach (double price in market.priceLog.Values)
                     {
-                        break;
+                        if (i >= points.Length)
+                        {
+                            break;
+                        }
+                        points[i] = price;
+                        i++;
                     }
-                    points[i] = price;
-                    i++;
                 }
 
 
-
                 double[] points2;
-
-                points2 = new double[market.supplyLog.Count > 100 ? 100 : market.supplyLog.Count];
-                int j = 0;
-                foreach (double supply in market.supplyLog.Values)
+                lock (market.supplyLog)
                 {
-                    if (j >= points.Length)
+                    points2 = new double[market.supplyLog.Count > 100 ? 100 : market.supplyLog.Count];
+                    int j = 0;
+                    foreach (double supply in market.supplyLog.Values)
                     {
-                        break;
+                        if (j >= points.Length)
+                        {
+                            break;
+                        }
+                        points2[j] = supply;
+                        j++;
                     }
-                    points2[j] = supply;
-                    j++;
                 }
 
                 StringBuilder facilitytext = new StringBuilder();

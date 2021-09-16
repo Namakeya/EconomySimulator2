@@ -142,6 +142,8 @@ namespace EconomySimulator2
             {
                 r.calc(tick);
             }
+
+            Agent.updateAgentList();
             /*
             if(r1.market["Grain"].price > r2.market["Grain"].price)
             {

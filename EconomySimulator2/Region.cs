@@ -142,8 +142,8 @@ namespace EconomySimulator2
             this.good = good;
             this.buyer = buyer;
             this.seller = seller;
-            this.log = new StringBuilder().Append("at ").Append(tick).Append(" : ").Append(good.name).Append(" :\t").Append(buyer).Append(" -> ").Append(seller).Append("\t")
-                .Append(amount).Append(" * ").Append($"{price:f2}").Append(" = ").Append($"{total:f2}").ToString();
+            this.log = new StringBuilder().Append("at ").Append(tick).Append(" :\t").Append(buyer).Append(" -> ").Append(seller).Append("\t")
+                .Append(amount).Append(" * ").Append(good.name).Append($"({price:f2})").Append(" = ").Append($"{total:f2}").ToString();
         }
 
         public override string ToString()

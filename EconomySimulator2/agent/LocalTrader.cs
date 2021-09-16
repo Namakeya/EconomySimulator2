@@ -1,4 +1,5 @@
-﻿using EconomySimulator2.facility;
+﻿using EconomySimulator2.agent;
+using EconomySimulator2.facility;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,6 +13,8 @@ namespace EconomySimulator2
         public Region destination;
         public int phase = 0;
         public Good tradeitem;
+
+        public bool constructing = false;
 
         public override void Action(int tick)
         {
@@ -60,9 +63,24 @@ namespace EconomySimulator2
 
                 phase = 0;
             }
-            //todo 移動して売却(Temporal で produceを設定)
+            if (!constructing && money>Good.GRAIN.price*200)
+            {
+                Construction cons = new Construction();
+                Dictionary<Good, int> needs = new Dictionary<Good, int>();
+                needs.Add(Good.GRAIN, 100);
+                cons.setup(this,needs,1000,5, FinConst);
+                cons.location = this.location;
+                cons.name = this.name + "_construction";
+                Agent.addAgent(cons);
+                constructing = true;
+            }
 
+        }
 
+        public void FinConst(int tick)
+        {
+            this.capacity += 5;
+            this.constructing = false;
         }
     }
 }

@@ -8,6 +8,10 @@ namespace EconomySimulator2
     class Agent
     {
         public static Dictionary<string, Agent> agents = new Dictionary<string, Agent>();
+        //agent.Action()中にagentsに新しいものを追加するとエラーになるので、まず下に追加してから後で上に追加
+        public static Dictionary<string, Agent> nextagents = new Dictionary<string, Agent>();
+        //同じく削除してもエラーなので下に追加してから後で削除
+        public static List<string> nextremoveagent = new List<string>();
         public string name;
         public double money;
         public Region location;
@@ -21,8 +25,31 @@ namespace EconomySimulator2
 
         public static void addAgent(Agent agent)
         {
-            agents.Add(agent.name, agent);
+            nextagents.Add(agent.name, agent);
         }
+
+        public static void removeAgent(Agent agent)
+        {
+            if (agents.ContainsKey(agent.name) && agents[agent.name] == agent)
+            {
+                nextremoveagent.Add(agent.name);
+            }
+        }
+
+        public static void updateAgentList()
+        {
+            foreach (string key in nextremoveagent)
+            {
+                agents.Remove(key);
+            }
+            nextremoveagent.Clear();
+            foreach(string key in nextagents.Keys)
+            {
+                agents.Add(key, nextagents[key]);
+            }
+            nextagents.Clear();
+        }
+
 
         public void addGoods(Good good, int amount)
         {
