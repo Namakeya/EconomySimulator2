@@ -93,19 +93,19 @@ namespace EconomySimulator2
                         {
                             if (produce != 0 && facility.getProduct(g) != 0)
                             {
-                                int amount = (int)((double)m.marketsupply / produce * facility.getProduct(g));
+                                double amount = ((double)m.marketsupply / produce * facility.getProduct(g));
                                 double moneychange = amount * m.price;
                                 Debug.Print(g.name + " " + moneychange + " -> " + facility.owner);
                                 facility.owner.money += moneychange;
-                                transactionLog.Add(new Transaction(time, m.price, amount, moneychange, m.good, facility.name, "market"));
+                                transactionLog.Add(new Transaction(time, m.price, (int)amount, moneychange, m.good, facility.name, "market"));
                             }
                             if (demand != 0 && facility.getDemand(g) != 0)
                             {
-                                int amount = (int)((double)m.marketsupply / demand * facility.getDemand(g));
+                                double amount = (double)m.marketsupply / demand * facility.getDemand(g);
                                 double moneychange = amount * m.price;
                                 Debug.Print(g.name + " " + facility.owner + " -> " + moneychange);
                                 facility.owner.money -= moneychange;
-                                transactionLog.Add(new Transaction(time, m.price, amount, moneychange, m.good, "market", facility.name));
+                                transactionLog.Add(new Transaction(time, m.price, (int)amount, moneychange, m.good, "market", facility.name));
                             }
 
                         }

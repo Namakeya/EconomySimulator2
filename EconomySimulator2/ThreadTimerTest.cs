@@ -30,6 +30,7 @@ namespace EconomySimulator2
             Facility.facilities.Add(FacilityPop.NAME, FacilityPop.Factory);
             Facility.facilities.Add(FacilityBrewery.NAME, FacilityBrewery.Factory);
             Facility.facilities.Add(FacilityTemporal.NAME, FacilityTemporal.Factory);
+            Facility.facilities.Add(FacilityConstruction.NAME, FacilityConstruction.Factory);
 
             Region r1, r2;
 

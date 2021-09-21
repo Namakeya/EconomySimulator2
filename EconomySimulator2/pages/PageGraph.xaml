@@ -38,7 +38,7 @@
             </TabItem>
             <TabItem Header="Agent">
                 <Grid Background="#FFE5E5E5">
-                    <Label Name="agentLabel" Content="" Background="White" FontSize="15"/>
+                    <StackPanel Name="agentPanel" Background="White"/>
                 </Grid>
             </TabItem>
             <TabItem Header="History">

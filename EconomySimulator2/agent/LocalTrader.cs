@@ -1,4 +1,4 @@
-﻿using EconomySimulator2.agent;
+﻿
 using EconomySimulator2.facility;
 using System;
 using System.Collections.Generic;
@@ -63,21 +63,20 @@ namespace EconomySimulator2
 
                 phase = 0;
             }
+            
             if (!constructing && money>Good.GRAIN.price*200)
             {
-                Construction cons = new Construction();
+                FacilityConstruction cons = (FacilityConstruction)Facility.addFacility("Construction", 1, this, location);
                 Dictionary<Good, int> needs = new Dictionary<Good, int>();
                 needs.Add(Good.GRAIN, 100);
-                cons.setup(this,needs,1000,5, FinConst);
-                cons.location = this.location;
-                cons.name = this.name + "_construction";
-                Agent.addAgent(cons);
+                cons.setup(needs,1000,5, FinConst);
+                
                 constructing = true;
             }
-
+            
         }
 
-        public void FinConst(int tick)
+        public void FinConst(FacilityConstruction facilityConstruction)
         {
             this.capacity += 5;
             this.constructing = false;
