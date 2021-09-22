@@ -4,14 +4,14 @@ using System.Text;
 
 namespace EconomySimulator2
 {
-    class Good
+    public class Good
     {
         public static Dictionary<string, Good> values = new Dictionary<string, Good>();
 
         public string name;
         /**初期価格。実際に取引される価格は場所によって異なり、Market.priceで表される*/
         public double price;
-
+        /**需要の価格弾力性。価格が高いと買う人が少なくなる、必要性の低い財ほど大きな値になる。*/
         public double elasticity;
 
         private Good(string name, double price, double elasticity)
@@ -32,5 +32,7 @@ namespace EconomySimulator2
         public static Good GRAIN = new Good("Grain", 100, 0.5);
 
         public static Good ALCOHOL = new Good("Alcohol", 100, 1.5);
+
+        public static Good WOOD = new Good("Wood", 100, 1.5);
     }
 }

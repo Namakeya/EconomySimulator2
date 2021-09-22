@@ -10,10 +10,17 @@
 
     <Grid>
         <TabControl>
-            <TabItem Header="TabItem">
+            <TabItem Header="Graph">
+                <Grid Background="#FFE5E5E5">
+                    <WpfPlot x:Name="moneychart1" HorizontalAlignment="Left" Margin="72,212,0,0" VerticalAlignment="Top" Height="160" Width="483"/>
+                    <WpfPlot x:Name="goodschart1" HorizontalAlignment="Left" Margin="72,21,0,0" VerticalAlignment="Top" Height="165" Width="483"/>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Goods">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="TabItem">
+            <TabItem Header="History">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
         </TabControl>

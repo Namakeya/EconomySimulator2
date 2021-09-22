@@ -18,9 +18,14 @@ namespace EconomySimulator2.pages
     /// </summary>
     public partial class PageAgent : Page
     {
-        public PageAgent()
+        public bool enabled = false;
+        public Agent agent;
+        public PageMap pagemap;
+        public PageAgent(PageMap pagemap)
         {
+            this.pagemap = pagemap;
             InitializeComponent();
         }
+
     }
 }

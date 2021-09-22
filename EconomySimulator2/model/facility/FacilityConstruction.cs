@@ -21,10 +21,11 @@ namespace EconomySimulator2.facility
 
         private FinishConstruction finishConstruction;
 
-        public FacilityConstruction(string name, Region region) : base(name, region) { 
+        public FacilityConstruction(string name, Region region) : base(name, region)
+        {
 
-            }
-        public void setup( Dictionary<Good, int> needs, int worksneeded, int duration, FinishConstruction finish)
+        }
+        public void setup(Dictionary<Good, int> needs, int worksneeded, int duration, FinishConstruction finish)
         {
             this.needs = needs;
             this.worksneeded = worksneeded;
@@ -91,18 +92,18 @@ namespace EconomySimulator2.facility
             if (procedure >= 1)
             {
                 finishConstruction(this);
-                Facility.removeFacility(this,1);
+                Facility.removeFacility(this, 1);
                 return;
             }
 
-            
+
             double nextproc = 1;
             demands.Clear();
             foreach (Good g in needs.Keys)
             {
                 if (this.getGoods(g) < needs[g] * (1 - procedure))
                 {
-                   demands.Add(g, needs[g] / duration);
+                    demands.Add(g, needs[g] / duration);
 
                 }
                 double pr = (double)getGoods(g) / needs[g];
@@ -144,7 +145,7 @@ namespace EconomySimulator2.facility
 
         public override string ToString()
         {
-            return this.name+ $"{procedure*100:f0}"+"%";
+            return this.name + $"{procedure * 100:f0}" + "%";
         }
     }
 }

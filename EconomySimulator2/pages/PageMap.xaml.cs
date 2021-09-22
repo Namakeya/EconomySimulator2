@@ -1,4 +1,6 @@
-﻿using System;
+﻿using EconomySimulator2.pages;
+using EconomySimulator2.pages.render;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +22,11 @@ namespace EconomySimulator2
     public partial class PageMap : Page
     {
         public PageGraph pageGraph;
+        public PageAgent pageAgent;
         private ThreadTimerTest ttt;
         private Render render = new Render();
         private RenderMap renderMap = new RenderMap();
+        private RenderAgent renderAgent = new RenderAgent();
         public string itemname;
         public int timerdelay = 500;
         public bool stop = false;
@@ -36,6 +40,7 @@ namespace EconomySimulator2
                 MyComboBox.Items.Add(good.name);
             }
             pageGraph = new PageGraph(this);
+            pageAgent = new PageAgent(this);
             ttt = new ThreadTimerTest();
             ttt.Setup(this);
         }
@@ -50,6 +55,7 @@ namespace EconomySimulator2
         {
             render.region = (Region)region;
             NavigationService.Navigate(pageGraph);
+            pageGraph.enabled = true;
         }
 
 
@@ -79,6 +85,10 @@ namespace EconomySimulator2
                 Task task3 = Task.Run(() =>
                 {
                     renderMap.Start(ttt, this);
+                });
+                Task task4 = Task.Run(() =>
+                {
+                    renderAgent.Start(ttt, this);
                 });
 
             }

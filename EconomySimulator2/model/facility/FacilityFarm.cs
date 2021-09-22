@@ -62,6 +62,7 @@ namespace EconomySimulator2
             efficiency = 1;
             if (sdratio[Good.WORKER] < 1)
             {
+                //労働力の供給/需要 = 生産効率
                 efficiency *= sdratio[Good.WORKER];
             }
         }

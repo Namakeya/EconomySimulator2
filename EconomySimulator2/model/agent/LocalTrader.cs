@@ -63,17 +63,17 @@ namespace EconomySimulator2
 
                 phase = 0;
             }
-            
-            if (!constructing && money>Good.GRAIN.price*200)
+
+            if (!constructing && money > Good.GRAIN.price * 200)
             {
                 FacilityConstruction cons = (FacilityConstruction)Facility.addFacility("Construction", 1, this, location);
                 Dictionary<Good, int> needs = new Dictionary<Good, int>();
                 needs.Add(Good.GRAIN, 100);
-                cons.setup(needs,1000,5, FinConst);
-                
+                cons.setup(needs, 1000, 5, FinConst);
+
                 constructing = true;
             }
-            
+
         }
 
         public void FinConst(FacilityConstruction facilityConstruction)

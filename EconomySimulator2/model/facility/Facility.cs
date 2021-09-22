@@ -5,8 +5,8 @@ using System.Text;
 
 namespace EconomySimulator2
 {
-    delegate Facility FacilityFactory(Region region);
-    abstract class Facility
+    public delegate Facility FacilityFactory(Region region);
+    public abstract class Facility
     {
         //そのRegionに無いFacilityを作るときにはFacilityFactoryが新しいインスタンスを作る
         public static Dictionary<string, FacilityFactory> facilities = new Dictionary<string, FacilityFactory>();

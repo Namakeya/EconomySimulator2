@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,6 +20,7 @@ namespace EconomySimulator2
     public partial class PageGraph : Page
     {
         public PageMap pagemap;
+        public bool enabled = false;
         public PageGraph(PageMap pagemap)
         {
             InitializeComponent();
@@ -33,6 +35,7 @@ namespace EconomySimulator2
         {
 
             NavigationService.Navigate(pagemap);
+            enabled = false;
         }
 
         public void setComboBoxSelection(object s)
@@ -43,6 +46,22 @@ namespace EconomySimulator2
         private void MyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             pagemap.setComboBoxSelection(MyComboBox.SelectedItem);
+        }
+
+        public void ButtonDynamicEvent(object sender)
+        {
+            Debug.WriteLine(((Button)sender).Name + "がクリックされました。");
+            string name = ((Button)sender).Name;
+            string agentname = name[7..];
+
+            if (Agent.agents.ContainsKey(agentname))
+            {
+                Debug.WriteLine("Agent found");
+                this.pagemap.pageAgent.enabled = true;
+                this.pagemap.pageAgent.agent = Agent.agents[agentname];
+                NavigationService.Navigate(this.pagemap.pageAgent);
+
+            }
         }
 
     }

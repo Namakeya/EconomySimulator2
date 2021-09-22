@@ -6,7 +6,7 @@ using System.Text;
 namespace EconomySimulator2
 {
     /**需要、供給、備蓄、交易のあるマーケットを表す。ある一つの財のみを扱う。*/
-    class Market
+    public class Market
     {
         public Good good;
         public Region region;

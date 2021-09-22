@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace EconomySimulator2
 {
-    class Region
+    public class Region
     {
         public string name;
         public Dictionary<string, Market> market = new Dictionary<string, Market>();
         public Dictionary<string, Facility> facilities = new Dictionary<string, Facility>();
 
-        public object transactionLockObject=new object();
+        public object transactionLockObject = new object();
         public List<Transaction> transactionLog = new List<Transaction>();
         public Agent localpeople;
 
@@ -122,7 +122,7 @@ namespace EconomySimulator2
         }
     }
 
-    class Transaction
+    public class Transaction
     {
         public readonly int tick;
         public readonly double price;

@@ -29,6 +29,10 @@ namespace EconomySimulator2.facility
             {
                 owner.addGoods(g, (int)(getDemand(g) * sdratio[g]));
             }
+            foreach (Good g in spratio.Keys)
+            {
+                owner.addGoods(g, (int)(-getProduct(g) * spratio[g]));
+            }
             //todo 余った財の返品
             Facility.removeFacility(this, this.amount);
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EconomySimulator2
 {
-    class Agent
+    public class Agent
     {
         public static Dictionary<string, Agent> agents = new Dictionary<string, Agent>();
         //agent.Action()中にagentsに新しいものを追加するとエラーになるので、まず下に追加してから後で上に追加
@@ -18,9 +18,25 @@ namespace EconomySimulator2
         public Dictionary<string, Facility> facilities = new Dictionary<string, Facility>();
         private Dictionary<Good, int> goods = new Dictionary<Good, int>();
 
+        public Dictionary<int, double> moneyLog = new Dictionary<int, double>();
+        public Dictionary<Good, Dictionary<int, int>> goodsLog = new Dictionary<Good, Dictionary<int, int>>();
+
         public virtual void Action(int tick)
         {
             Debug.Print(name + " money : " + money);
+            moneyLog.Add(tick, money);
+
+            foreach (Good g in goods.Keys)
+            {
+                if (goodsLog.ContainsKey(g))
+                {
+                }
+                else
+                {
+                    goodsLog.Add(g, new Dictionary<int, int>());
+                }
+                goodsLog[g].Add(tick, goods[g]);
+            }
         }
 
         public static void addAgent(Agent agent)
@@ -43,7 +59,7 @@ namespace EconomySimulator2
                 agents.Remove(key);
             }
             nextremoveagent.Clear();
-            foreach(string key in nextagents.Keys)
+            foreach (string key in nextagents.Keys)
             {
                 agents.Add(key, nextagents[key]);
             }
@@ -62,7 +78,9 @@ namespace EconomySimulator2
                 }
                 else
                 {
-                    goods.Remove(good);
+                    //これだとログがおかしくなるので変更
+                    //goods.Remove(good);
+                    goods[good] = 0;
                 }
             }
             else
