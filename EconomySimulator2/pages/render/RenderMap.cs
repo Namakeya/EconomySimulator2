@@ -28,14 +28,14 @@ namespace EconomySimulator2
                         Market market = ttt.regions[i].market[mainWindow.itemname];
                         mainWindow.Dispatcher.Invoke((Action)(() =>
                         {
-                            ttt.buttons[i].Content = ttt.regions[i].name + "\n" + $"{market.price:f2}";
+                            mainWindow.buttons[i].Content = ttt.regions[i].name + "\n" + $"{market.price:f2}";
                         }));
                     }
                     else
                     {
                         mainWindow.Dispatcher.Invoke((Action)(() =>
                         {
-                            ttt.buttons[i].Content = ttt.regions[i].name;
+                            mainWindow.buttons[i].Content = ttt.regions[i].name;
                         }));
                     }
                 }

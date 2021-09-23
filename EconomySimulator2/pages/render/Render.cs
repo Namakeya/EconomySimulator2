@@ -39,39 +39,21 @@ namespace EconomySimulator2
             {
                 if (mainWindow.itemname != null && region.market.ContainsKey(mainWindow.itemname))
                 {
-                    double[] points;
+                    double[] pointsx;
+                    double[] pointsy;
 
                     Market market = region.market[mainWindow.itemname];
                     lock (market.priceLog)
                     {
-                        points = new double[market.priceLog.Count > 100 ? 100 : market.priceLog.Count];
-                        int i = 0;
-                        foreach (double price in market.priceLog.Values)
-                        {
-                            if (i >= points.Length)
-                            {
-                                break;
-                            }
-                            points[i] = price;
-                            i++;
-                        }
+                        market.priceLog.ToGraph(out pointsx,out pointsy, 100);
                     }
 
 
-                    double[] points2;
+                    double[] points2x;
+                    double[] points2y;
                     lock (market.supplyLog)
                     {
-                        points2 = new double[market.supplyLog.Count > 100 ? 100 : market.supplyLog.Count];
-                        int j = 0;
-                        foreach (double supply in market.supplyLog.Values)
-                        {
-                            if (j >= points.Length)
-                            {
-                                break;
-                            }
-                            points2[j] = supply;
-                            j++;
-                        }
+                        market.supplyLog.ToGraph(out points2x, out points2y, 100);
                     }
 
                     StringBuilder facilitytext = new StringBuilder();
@@ -105,24 +87,24 @@ namespace EconomySimulator2
                             }
                         }
                     }
-                    //このオブジェクトは別のスレッドに所有されているため、呼び出しスレッドはこのオブジェクトにアクセスできません。が発生
+                    //このオブジェクトは別のスレッドに所有されているため、呼び出しスレッドはこのオブジェクトにアクセスできません。を回避
                     pagegraph.Dispatcher.Invoke((Action)(() =>
                     {
                         pagegraph.pricechart1.Plot.Clear();
                         pagegraph.pricechart1.Plot.Title("Price");
 
-                        if (points.Length > 0)
+                        if (pointsy.Length > 0)
                         {
-                            SignalPlot sp = pagegraph.pricechart1.Plot.AddSignal(points);
+                            SignalPlotXY sp = pagegraph.pricechart1.Plot.AddSignalXY(pointsx,pointsy);
                         }
 
                         pagegraph.pricechart1.Plot.Render();
 
                         pagegraph.supplychart1.Plot.Clear();
                         pagegraph.supplychart1.Plot.Title("Supply");
-                        if (points2.Length > 0)
+                        if (points2y.Length > 0)
                         {
-                            SignalPlot sp2 = pagegraph.supplychart1.Plot.AddSignal(points2);
+                            SignalPlotXY sp2 = pagegraph.supplychart1.Plot.AddSignalXY(points2x, points2y);
                         }
 
                         pagegraph.supplychart1.Plot.Render();
@@ -145,6 +127,12 @@ namespace EconomySimulator2
                                 string name = button.Name[7..];
                                 if (agentnames.ContainsKey(name))
                                 {
+                                    Agent agent = agentnames[name];
+                                    StringBuilder agenttext = new StringBuilder();
+                                    agenttext.Append(agent.name).Append(" : ").Append($"{agent.money:f0}").Append("\n");
+                                    string text = agenttext.ToString();
+                                    button.Content = text;
+
                                     agentnames.Remove(name);
                                     buttonnum++;
                                 }

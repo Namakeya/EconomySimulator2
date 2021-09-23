@@ -19,8 +19,8 @@ namespace EconomySimulator2
         public double maxExp = 5;
 
 
-        public Dictionary<int, double> priceLog = new Dictionary<int, double>();
-        public Dictionary<int, int> supplyLog = new Dictionary<int, int>();
+        public LogDictionary priceLog = new LogDictionary();
+        public LogDictionary supplyLog = new LogDictionary();
 
         /**直前の生産量*/
         public int basesupply { get; protected set; }

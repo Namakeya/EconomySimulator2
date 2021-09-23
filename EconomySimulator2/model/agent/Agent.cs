@@ -18,8 +18,8 @@ namespace EconomySimulator2
         public Dictionary<string, Facility> facilities = new Dictionary<string, Facility>();
         private Dictionary<Good, int> goods = new Dictionary<Good, int>();
 
-        public Dictionary<int, double> moneyLog = new Dictionary<int, double>();
-        public Dictionary<Good, Dictionary<int, int>> goodsLog = new Dictionary<Good, Dictionary<int, int>>();
+        public LogDictionary moneyLog = new LogDictionary();
+        public Dictionary<Good, LogDictionary> goodsLog = new Dictionary<Good, LogDictionary>();
 
         public virtual void Action(int tick)
         {
@@ -33,7 +33,7 @@ namespace EconomySimulator2
                 }
                 else
                 {
-                    goodsLog.Add(g, new Dictionary<int, int>());
+                    goodsLog.Add(g, new LogDictionary());
                 }
                 goodsLog[g].Add(tick, goods[g]);
             }
@@ -78,9 +78,8 @@ namespace EconomySimulator2
                 }
                 else
                 {
-                    //これだとログがおかしくなるので変更
-                    //goods.Remove(good);
-                    goods[good] = 0;
+                    goods.Remove(good);
+                    //goods[good] = 0;
                 }
             }
             else

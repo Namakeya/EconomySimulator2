@@ -18,7 +18,6 @@ namespace EconomySimulator2
 
         public Vector[] regionspos = new Vector[regionCount];
 
-        public Button[] buttons = new Button[regionCount];
 
         public PageMap pageMap;
 
@@ -31,6 +30,7 @@ namespace EconomySimulator2
             Facility.facilities.Add(FacilityBrewery.NAME, FacilityBrewery.Factory);
             Facility.facilities.Add(FacilityTemporal.NAME, FacilityTemporal.Factory);
             Facility.facilities.Add(FacilityConstruction.NAME, FacilityConstruction.Factory);
+            Facility.facilities.Add(FacilitySawmill.NAME, FacilitySawmill.Factory);
 
             Region r1, r2;
 
@@ -73,31 +73,7 @@ namespace EconomySimulator2
             regions[1] = r2;
             regionspos[0] = new Vector(80, 30);
 
-            for (int i = 0; i < regions.Length; i++)
-            {
-                Region r = regions[i];
-                Vector v = regionspos[i];
-                Button b1 = new Button();
-                b1.Content = r.name;
-                b1.Name = "button_" + r.name;
-                /*
-                Thickness margin = b1.Margin;
-                margin.Left = v.X;
-                margin.Right = pageMap.ActualWidth - v.X - 40;
-                margin.Top = v.Y;
-                margin.Bottom = pageMap.ActualHeight - v.Y - 30;
-                */
-
-
-                b1.Margin = new Thickness(v.X * 2 - 300, v.Y * 2 - 300, 0, 0);
-                b1.Width = 60;
-                b1.Height = 40;
-                b1.Click += (sender, e) => ButtonDynamicEvent(sender);
-                Grid.SetRow(b1, 3);
-                Grid.SetColumn(b1, 0);
-                pageMap.gridMain.Children.Add(b1);
-                buttons[i] = b1;
-            }
+            
         }
 
         public void Start()
@@ -117,20 +93,7 @@ namespace EconomySimulator2
                 }
             }
         }
-        private void ButtonDynamicEvent(object sender)
-        {
-            Debug.WriteLine(((Button)sender).Name + "がクリックされました。");
-            string name = ((Button)sender).Name;
-            string regionname = name.Substring(7);
-
-            foreach (Region r in regions)
-            {
-                if (r.name.Equals(regionname))
-                {
-                    pageMap.clickRegionButton(r);
-                }
-            }
-        }
+       
         public void Run()
         {
             Debug.Print("tick : " + tick);

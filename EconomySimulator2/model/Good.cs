@@ -11,7 +11,8 @@ namespace EconomySimulator2
         public string name;
         /**初期価格。実際に取引される価格は場所によって異なり、Market.priceで表される*/
         public double price;
-        /**需要の価格弾力性。価格が高いと買う人が少なくなる、必要性の低い財ほど大きな値になる。*/
+        /**需要の価格弾力性。価格が高いと買う人が少なくなる、必要性の低い財ほど大きな値になる。
+         * elasticity=1だと価格*数量が一定になる(予算が一定)*/
         public double elasticity;
 
         private Good(string name, double price, double elasticity)
